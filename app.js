@@ -8,8 +8,14 @@ let comando = argv._[0];
 
 switch (comando) {
     case 'crear':
-        let tarea = toDo.crear(argv.descripcion);
-        console.log(tarea);
+        toDo.crear(argv.descripcion)
+            .then(tarea => {
+                console.log(`Se creó la tarea:`,
+                    colors.brightGreen.underline(` ${tarea.descripcion} `)
+                );
+            })
+            .catch(err => console.log(colors.brightRed(err)));
+
         break;
 
     case 'listar':
@@ -41,13 +47,17 @@ switch (comando) {
         break;
 
     case 'actualizar':
-        let actualizado = toDo.update(argv.descripcion, argv.completado);
-        console.log(actualizado);
+        toDo.update(argv.descripcion, argv.completado)
+            .then(resp => console.log(colors.brightYellow(resp)))
+            .catch(err => console.log(colors.brightRed(err)));
+
         break;
 
     case 'borrar':
-        let borrado = toDo.borrar(argv.descripcion);
-        console.log(borrado);
+        toDo.borrar(argv.descripcion)
+            .then(resp => console.log(colors.brightYellow(resp)))
+            .catch(err => console.log(colors.brightRed(err)));
+
         break;
 
     default:
